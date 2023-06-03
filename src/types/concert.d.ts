@@ -9,6 +9,7 @@ export default interface IConcert {
     coordinates: number[];
     address: string;
     venue: string;
+    country: string;
   };
   groupId: string;
 }
