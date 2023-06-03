@@ -6,4 +6,6 @@ build/
 
 .env
 
+Plan.md
+
 package-lock.json
