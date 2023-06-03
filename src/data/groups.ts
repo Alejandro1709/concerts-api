@@ -1,4 +1,4 @@
-import type GroupType from "../models/group.model";
+import { type GroupType } from "../models/group.model";
 
 const groups: Array<GroupType> = [
   {

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getGroups, getGroup } from "../controllers/group.controller";
-import type GroupType from "../models/group.model";
+import { type GroupType } from "../models/group.model";
 
 const router = Router();
 

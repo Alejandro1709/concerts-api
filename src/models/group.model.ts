@@ -1,5 +1,7 @@
 import * as z from "zod";
 
+import { db } from "../config/db";
+
 const Group = z.object({
   id: z.string().uuid(),
   name: z.string().min(1),
@@ -23,6 +25,6 @@ const Group = z.object({
   ),
 });
 
-type GroupType = z.infer<typeof Group>;
+export type GroupType = z.infer<typeof Group>;
 
-export default GroupType;
+export const Groups = db.collection<GroupType>("groups");
