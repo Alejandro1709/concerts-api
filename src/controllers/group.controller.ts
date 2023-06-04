@@ -1,9 +1,15 @@
 import asyncHandler from "express-async-handler";
-import { type GroupWithId, Groups } from "../models/group.model";
+import {
+  type GroupWithId,
+  Groups,
+  type GroupType,
+  Group,
+} from "../models/group.model";
+import { type InsertOneResult } from "mongodb";
 import type { NextFunction, Request, Response } from "express";
 
 export const getGroups = asyncHandler(
-  async (req: Request, res: Response<GroupWithId[]>, next: NextFunction) => {
+  async (_req: Request, res: Response<GroupWithId[]>, next: NextFunction) => {
     try {
       const result = await Groups.find();
       const groups = await result.toArray();
@@ -26,5 +32,18 @@ export const getGroup = asyncHandler(
     }
 
     res.status(200).json(group);
+  }
+);
+
+export const createGroup = asyncHandler(
+  async (
+    req: Request<{}, InsertOneResult<GroupWithId>, GroupType>,
+    res: Response<InsertOneResult<GroupWithId>>
+  ) => {
+    const result = await Group.parse(req.body);
+
+    const savedGroup = await Groups.insertOne(result);
+
+    res.status(201).json(savedGroup);
   }
 );

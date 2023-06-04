@@ -1,3 +1,4 @@
+import { ZodError } from "zod";
 import { ENV } from "../config/secrets";
 import type { NextFunction, Request, Response } from "express";
 
@@ -20,6 +21,11 @@ export const errorHandler = (
   //   statusCode = 404;
   //   message = 'Resource Not Found';
   // }
+
+  if (err instanceof ZodError) {
+    const messages = err.issues.map((issue) => issue.message);
+    message = messages.join(", ");
+  }
 
   res.status(statusCode).json({
     message,

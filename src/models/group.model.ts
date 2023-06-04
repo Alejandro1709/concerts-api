@@ -4,27 +4,31 @@ import { WithId } from "mongodb";
 
 import { db } from "../config/db";
 
-const Group = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(1),
+export const Group = z.object({
+  id: z.string().optional(),
+  name: z.string({ required_error: "The group must have a title" }).min(1),
   slug: z.string().optional(),
-  concerts: z.array(
-    z.object({
-      id: z.string().min(1).uuid(),
-      title: z.string().min(1),
-      slug: z.string().optional(),
-      description: z.string().optional(),
-      image_url: z.string().url().optional(),
-      date: z.string().datetime(),
-      groupId: z.string().uuid(),
-      location: z.object({
-        coordinates: z.array(z.number()),
-        address: z.string().min(1),
-        venue: z.string().min(1),
-        country: z.string().min(1),
-      }),
-    })
-  ),
+  concerts: z
+    .array(
+      z.object({
+        id: z.string(),
+        title: z
+          .string({ required_error: "The concert must have a title" })
+          .min(1),
+        slug: z.string().optional(),
+        description: z.string().optional(),
+        image_url: z.string().url().optional(),
+        date: z.string().datetime(),
+        groupId: z.string(),
+        location: z.object({
+          coordinates: z.array(z.number()),
+          address: z.string().min(1),
+          venue: z.string().min(1),
+          country: z.string().min(1),
+        }),
+      })
+    )
+    .optional(),
 });
 
 export type GroupType = z.infer<typeof Group>;
