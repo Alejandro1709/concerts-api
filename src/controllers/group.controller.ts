@@ -5,7 +5,6 @@ import {
   type GroupType,
   Group,
 } from "../models/group.model";
-import { type InsertOneResult } from "mongodb";
 import type { NextFunction, Request, Response } from "express";
 
 export const getGroups = asyncHandler(
@@ -37,13 +36,20 @@ export const getGroup = asyncHandler(
 
 export const createGroup = asyncHandler(
   async (
-    req: Request<{}, InsertOneResult<GroupWithId>, GroupType>,
-    res: Response<InsertOneResult<GroupWithId>>
+    req: Request<{}, GroupWithId, GroupType>,
+    res: Response<GroupWithId>
   ) => {
-    const result = await Group.parse(req.body);
+    const result = await Group.parseAsync(req.body);
 
     const savedGroup = await Groups.insertOne(result);
 
-    res.status(201).json(savedGroup);
+    if (!savedGroup.acknowledged) {
+      throw new Error("Error while inserting document...");
+    }
+
+    res.status(201).json({
+      _id: savedGroup.insertedId,
+      ...result,
+    });
   }
 );
