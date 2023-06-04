@@ -1,14 +1,30 @@
-import groups from "../data/groups";
-import type { Request, Response } from "express";
+import asyncHandler from "express-async-handler";
+import { type GroupWithId, Groups } from "../models/group.model";
+import type { NextFunction, Request, Response } from "express";
 
-export const getGroups = async (req: Request, res: Response) => {
-  res.status(200).json(groups);
-};
+export const getGroups = asyncHandler(
+  async (req: Request, res: Response<GroupWithId[]>, next: NextFunction) => {
+    try {
+      const result = await Groups.find();
+      const groups = await result.toArray();
 
-export const getGroup = async (req: Request, res: Response) => {
-  const { slug } = req.params;
+      res.status(200).json(groups);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-  const foundGroup = groups.find((g) => g.slug === slug);
+export const getGroup = asyncHandler(
+  async (req: Request, res: Response<GroupWithId>) => {
+    const { slug } = req.params;
 
-  res.status(200).json(foundGroup);
-};
+    const group = await Groups.findOne({ slug });
+
+    if (!group) {
+      throw new Error("This group does not exists!");
+    }
+
+    res.status(200).json(group);
+  }
+);

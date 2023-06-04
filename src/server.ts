@@ -4,8 +4,11 @@ import groupRoutes from "./routes/group.routes";
 import { ENV, PORT } from "./config/secrets";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
 import type { Request, Response } from "express";
+import { connect } from "./config/db";
 
 const app = express();
+
+connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

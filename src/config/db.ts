@@ -7,3 +7,8 @@ const MONGO_URI = (
 
 export const client = new MongoClient(MONGO_URI);
 export const db = client.db();
+
+export const connect = async () => {
+  await client.connect();
+  console.log("Connected to MongoDB!");
+};

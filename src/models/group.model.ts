@@ -1,5 +1,7 @@
 import * as z from "zod";
 
+import { WithId } from "mongodb";
+
 import { db } from "../config/db";
 
 const Group = z.object({
@@ -26,5 +28,7 @@ const Group = z.object({
 });
 
 export type GroupType = z.infer<typeof Group>;
+
+export type GroupWithId = WithId<GroupType>;
 
 export const Groups = db.collection<GroupType>("groups");
