@@ -11,9 +11,9 @@ const router = Router();
 
 router
   .route("/")
-  .get<{}, GroupType[]>(getGroups)
+  .get<Record<string, never>, GroupType[]>(getGroups)
   .post(validateRequest({ body: Group }), createGroup);
 
-router.route("/:slug").get<{}, GroupType>(getGroup);
+router.route("/:slug").get<Record<string, never>, GroupType>(getGroup);
 
 export default router;

@@ -17,7 +17,7 @@ export const getGroups = asyncHandler(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export const getGroup = asyncHandler(
@@ -31,13 +31,13 @@ export const getGroup = asyncHandler(
     }
 
     res.status(200).json(group);
-  }
+  },
 );
 
 export const createGroup = asyncHandler(
   async (
-    req: Request<{}, GroupWithId, GroupType>,
-    res: Response<GroupWithId>
+    req: Request<Record<string, never>, GroupWithId, GroupType>,
+    res: Response<GroupWithId>,
   ) => {
     const result = await Group.parseAsync(req.body);
 
@@ -51,5 +51,5 @@ export const createGroup = asyncHandler(
       _id: savedGroup.insertedId,
       ...result,
     });
-  }
+  },
 );

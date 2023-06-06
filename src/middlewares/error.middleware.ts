@@ -12,9 +12,9 @@ export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
-  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;
 
   // if (err.name === 'CastError' && err.kind === 'ObjectId') {

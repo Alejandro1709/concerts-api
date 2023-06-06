@@ -26,7 +26,7 @@ export const Group = z.object({
           venue: z.string().min(1),
           country: z.string().min(1),
         }),
-      })
+      }),
     )
     .optional(),
 });
