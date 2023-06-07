@@ -7,6 +7,8 @@
     "start": "tsc && node build/server.js",
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
+    "lint": "eslint --ext .ts src/",
+    "format": "prettier --write \"src/**/*.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
