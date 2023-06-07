@@ -5,6 +5,7 @@ import {
   type GroupType,
   Group,
 } from "../models/group.model";
+import slugify from "slugify";
 import type { NextFunction, Request, Response } from "express";
 
 export const getGroups = asyncHandler(
@@ -41,7 +42,12 @@ export const createGroup = asyncHandler(
   ) => {
     const result = await Group.parseAsync(req.body);
 
-    const savedGroup = await Groups.insertOne(result);
+    const newer = {
+      ...result,
+      slug: slugify(result.name, { lower: true }),
+    };
+
+    const savedGroup = await Groups.insertOne(newer);
 
     if (!savedGroup.acknowledged) {
       throw new Error("Error while inserting document...");
