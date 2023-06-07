@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import groupRoutes from "./routes/group.routes";
+import concertRoutes from "./routes/concert.routes";
 import { ENV, PORT } from "./config/secrets";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
 import { connect } from "./config/db";
@@ -18,6 +19,7 @@ if (ENV === "development") {
 }
 
 app.use("/api/v1/groups", groupRoutes);
+app.use("/api/v1/concerts", concertRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   res.status(200).json({ message: "Hello" });
