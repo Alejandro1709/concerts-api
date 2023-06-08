@@ -10,7 +10,7 @@ export const Concert = z.object({
   slug: z.string().optional(),
   description: z.string().optional(),
   image_url: z.string().url().optional(),
-  date: z.string().datetime(),
+  date: z.string(),
   location: z.object({
     coordinates: z.array(z.number()),
     address: z.string().min(1),
