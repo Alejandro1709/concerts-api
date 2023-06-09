@@ -1,11 +1,5 @@
 import asyncHandler from "express-async-handler";
-import {
-  Concert,
-  type ConcertType,
-  type ConcertWithId,
-  Concerts,
-} from "../models/concert.model";
-import slugify from "slugify";
+import { type ConcertWithId, Concerts } from "../models/concert.model";
 import type { Request, Response } from "express";
 
 export const getConcerts = asyncHandler(
@@ -29,30 +23,5 @@ export const getConcert = asyncHandler(
     }
 
     res.status(200).json(concert);
-  },
-);
-
-export const createConcert = asyncHandler(
-  async (
-    req: Request<Record<string, never>, ConcertWithId, ConcertType>,
-    res: Response<ConcertWithId>,
-  ) => {
-    const result = await Concert.parseAsync(req.body);
-
-    const newer = {
-      ...result,
-      slug: slugify(result.title, { lower: true }),
-    };
-
-    const savedConcert = await Concerts.insertOne(newer);
-
-    if (!savedConcert.acknowledged) {
-      throw new Error("Error while inserting document...");
-    }
-
-    res.status(201).json({
-      _id: savedConcert.insertedId,
-      ...result,
-    });
   },
 );

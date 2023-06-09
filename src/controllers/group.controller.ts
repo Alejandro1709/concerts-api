@@ -5,6 +5,12 @@ import {
   type GroupType,
   Group,
 } from "../models/group.model";
+import {
+  Concert,
+  type ConcertType,
+  type ConcertWithId,
+  Concerts,
+} from "../models/concert.model";
 import slugify from "slugify";
 import type { NextFunction, Request, Response } from "express";
 
@@ -55,6 +61,32 @@ export const createGroup = asyncHandler(
 
     res.status(201).json({
       _id: savedGroup.insertedId,
+      ...result,
+    });
+  },
+);
+
+// Concerts
+export const createConcert = asyncHandler(
+  async (
+    req: Request<Record<string, never>, ConcertWithId, ConcertType>,
+    res: Response<ConcertWithId>,
+  ) => {
+    const result = await Concert.parseAsync(req.body);
+
+    const newer = {
+      ...result,
+      slug: slugify(result.title, { lower: true }),
+    };
+
+    const savedConcert = await Concerts.insertOne(newer);
+
+    if (!savedConcert.acknowledged) {
+      throw new Error("Error while inserting document...");
+    }
+
+    res.status(201).json({
+      _id: savedConcert.insertedId,
       ...result,
     });
   },
