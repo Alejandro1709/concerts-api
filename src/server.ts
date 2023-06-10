@@ -4,12 +4,12 @@ import groupRoutes from "./routes/group.routes";
 import concertRoutes from "./routes/concert.routes";
 import { ENV, PORT } from "./config/secrets";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
-import { connect } from "./config/db";
+import { connectDb } from "./config/db";
 import type { Request, Response } from "express";
 
 const app = express();
 
-connect();
+connectDb();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
