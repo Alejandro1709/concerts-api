@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import slugify from "slugify";
 
 const concertSchema = new Schema(
   {
@@ -60,5 +61,15 @@ const concertSchema = new Schema(
     timestamps: true,
   },
 );
+
+concertSchema.pre("save", function (next) {
+  if (!this.isModified("title")) {
+    next();
+  }
+
+  this.slug = slugify(this.title as string, { lower: true });
+
+  next();
+});
 
 export default mongoose.model("Concert", concertSchema);
