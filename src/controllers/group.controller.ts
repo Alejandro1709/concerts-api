@@ -28,6 +28,17 @@ export const createGroup = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // TODO: Update group by slug
+export const updateGroup = asyncHandler(async (req: Request, res: Response) => {
+  const { slug } = req.params;
+
+  const group = await Group.findOneAndReplace({ slug }, req.body);
+
+  if (!group) {
+    throw new Error("This group does not exists!");
+  }
+
+  res.status(200).json(group);
+});
 
 // TODO: Delete group by slug and its concerts
 export const deleteGroup = asyncHandler(async (req: Request, res: Response) => {
