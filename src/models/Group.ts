@@ -8,7 +8,6 @@ const groupSchema = new Schema(
       required: [true, "The group must have a title"],
       trim: true,
       unique: true,
-      lowercase: true,
     },
     slug: {
       type: String,
