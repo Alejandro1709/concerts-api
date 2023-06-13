@@ -8,7 +8,6 @@ const concertSchema = new Schema(
       required: [true, "The concert must have a title"],
       trim: true,
       unique: true,
-      lowercase: true,
     },
     slug: {
       type: String,
