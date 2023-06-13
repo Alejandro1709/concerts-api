@@ -1,6 +1,4 @@
-import { type GroupType } from "../models/group.model";
-
-const groups: Array<GroupType> = [
+const groups = [
   {
     id: "70ebf64b-80b1-48f0-aaa5-03454202d0a6",
     name: "United States",
