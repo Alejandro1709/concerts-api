@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import groupRoutes from "./routes/group.routes";
 import concertRoutes from "./routes/concert.routes";
+import cors from "cors";
 import { ENV, PORT } from "./config/secrets";
 import { errorHandler, notFound } from "./middlewares/error.middleware";
 import { connectDb } from "./config/db";
@@ -13,6 +14,7 @@ connectDb();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: "http://localhost:3000" }));
 
 if (ENV === "development") {
   app.use(morgan("dev"));
